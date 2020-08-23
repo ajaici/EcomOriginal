@@ -12,10 +12,14 @@ namespace API.Controllers
     [Route("api/[Controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _repo;
-        public ProductsController(IProductRepository repo)
+        private readonly IGenericRepository<ProductType> _productType;
+        private readonly IGenericRepository<ProductBrand> _productBrand;
+        private readonly IGenericRepository<Product> _product;
+        public ProductsController(IGenericRepository<Product> product, IGenericRepository<ProductBrand> productBrand, IGenericRepository<ProductType> productType)
         {
-            _repo = repo;
+            _product = product;
+            _productBrand = productBrand;
+            _productType = productType;
         }
 
         [HttpGet]
@@ -23,30 +27,33 @@ namespace API.Controllers
         {
             //return "List of products";
 
-            return await _repo.GetProductsAsync();
+            //return await _repo.GetProductsAsync();
+
+
+            return await _product.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<Product> GetProduct(int id)
         {
-            return await _repo.GetProductsByIdAsync(id);
+            return await _product.GetByIdAsync(id);
 
         }
 
-        // [HttpGet("Brands")]
-        // public async Task<IReadOnlyList<ProductBrand>> GetProductBrands()
-        // {
-        //     //return "List of products";
+         [HttpGet("Brands")]
+         public async Task<IReadOnlyList<ProductBrand>> GetProductBrands()
+         {
+             //return "List of products";
 
-        //     return await _context.ProductBrands.ToListAsync();
-        // }
+             return await _productBrand.GetAllAsync();
+         }
 
-        // [HttpGet("Types")]
-        // public async Task<IReadOnlyList<ProductType>> GetProductTypes()
-        // {
-        //     //return "List of products";
+         [HttpGet("Types")]
+        public async Task<IReadOnlyList<ProductType>> GetProductTypes()
+         {
+            //return "List of products";
 
-        //     return await _context.ProductTypes.ToListAsync();
-        // }
+           return await _productType.GetAllAsync();
+         }
     }
 }

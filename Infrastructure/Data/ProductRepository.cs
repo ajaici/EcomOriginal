@@ -19,7 +19,7 @@ namespace Infrastructure.Data
             return await  _context.Products.ToListAsync();
         }
 
-        public async Task<Product> GetProductsByIdAsync(int id)
+        public async Task<Product> GetProductByIdAsync(int id)
         {
             return await  _context.Products.FirstOrDefaultAsync(x => x.Id == id);
         }
