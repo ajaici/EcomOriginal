@@ -16,12 +16,12 @@ namespace Infrastructure.Data
 
         public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
-            return await  _context.Products.ToListAsync();
+            return await  _context.Products.Include(t => t.ProductBrand).Include(t => t.ProductType).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await  _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return await  _context.Products.Include(p => p.ProductBrand).Include(p => p.ProductType).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
